@@ -21,14 +21,6 @@ int compareY(const void *p1, const void *p2) {
             or ((T*) p1)->x > ((T*) p2)->x);
 }
 
-template <class T>
-int compareX(const void *p1, const void *p2) {
-    if (((T*) p1)->label == ((T*) p2)->label)
-        return 100000;
-    else 
-        return ((T*) p1)->x > ((T*) p2)->x;
-}
-
 void addList(AdjVertex *&v, int l, int d, int x, int y) {
     if (d == 0)
         return;
@@ -81,7 +73,6 @@ void addSSList(SVertex *&v, SVertex *&e, int l) {
 }
 
 void addSList(SVertex *&v, int l) {
-    cout << "CALLING THIS" << endl;
     if (v == NULL) {
         v = new SVertex(l);
         v->next = NULL;
