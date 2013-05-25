@@ -19,7 +19,7 @@ struct Rectangle {
     SVertex *next;
     SVertex *end;
     inline void printv() {
-        cout << av.label << " " << bv.label << " " << cv.label << " " << dv.label << endl;
+        cout << a->label << " " << bv.label << " " << cv.label << " " << dv.label << endl;
     }
     inline void print() {
         if (next == NULL) {

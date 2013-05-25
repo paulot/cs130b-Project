@@ -127,21 +127,4 @@ int rcomp(const void *p1, const void *p2) {
     return ((T*)p1)->a->label > ((T*)p2)->a->label;
 }
 
-
-
-/*
-typedef enum {
-                ERROR = 0,
-                ADD   = 1
-} RVal;
-    
-int search(AdjVertex *list, int lbl, int d) {
-    if (list == NULL) { return ERROR; }
-    AdjVertex *i = list;
-    for (i; i != NULL; i = i->next)
-       if (i->label == lbl)
-           return ADD;
-        else
-}
-*/
 #endif

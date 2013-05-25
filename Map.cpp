@@ -23,6 +23,10 @@ class Tuple {
             if (value != NULL)
                 value->print();
         }
+        Tuple<T, Y>& operator= (const Tuple<T, Y> &other) {
+            key = other.key;
+            value = other.value;
+        }
 };
 
 // Map Class
@@ -40,10 +44,10 @@ class Map {
         }
         ~Map();
 
-        void insert(T& key);
-        void insert(T& key, Y& value);
+        Tuple<T, Y>& insert(T& key);
+        Tuple<T, Y>& insert(T& key, Y& value);
+        Tuple<T, Y>& insert(Tuple<T,Y> &tup);
 
-        // Search by array index (for fast sorting)
         Tuple<T,Y>& operator[] (int i);
         // Search by item
         Y&          operator[] (T& item);
@@ -63,16 +67,24 @@ Map<T,Y>::~Map() {
 }
 
 template <class T, class Y>
-void Map<T,Y>::insert(T& key) {
-    array[index].key = &key;
-    index++;
+Tuple<T, Y>& Map<T,Y>::insert(Tuple<T,Y> &tup) {
+    array[index++] = tup;
+    return array[index - 1];
 }
 
 template <class T, class Y>
-void Map<T,Y>::insert(T& key, Y& value) {
-    array[index].key = &key;
-    array[index].value = &value;
+Tuple<T, Y>& Map<T,Y>::insert(T& key) {
+    array[index].key = new T(key);
     index++;
+    return array[index - 1];
+}
+
+template <class T, class Y>
+Tuple<T, Y>& Map<T,Y>::insert(T& key, Y& value) {
+    array[index].key = new T(key);
+    array[index].value = new Y(value);
+    index++;
+    return array[index - 1];
 }
 
 template <class T, class Y>

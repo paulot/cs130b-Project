@@ -9,6 +9,7 @@ class Node {
         T   &item;
         Node<T>   *next;
         void print() {
+            cout << "    ";
             item.print();
         }
 };
@@ -20,13 +21,16 @@ class LinkedList {
             root = NULL;
             size = 0;
         }
+        LinkedList(const LinkedList<T> &l) {
+            root = l.root;
+            size = l.size;
+        }
         ~LinkedList();
         Node<T> &getRoot();
         void insert(T& item, int (*compar) (T& p1, T& p2));
         // Delete? what's that
         void print();
 
-    private:
         int size;
         Node<T>  *root;
 };

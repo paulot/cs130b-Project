@@ -87,6 +87,7 @@ int main() {
         rectList.addAdjYVert(vertexList1.adjlist, vertexList1.index);
         vertexList1.addYAdj();
 
+        vertexList1.sort();
         for (int i = 0; i < numRect; i++) {
             rectList[i].print();
         }
@@ -94,7 +95,6 @@ int main() {
             rectList[i].printv();
         }
 
-        vertexList1.sort();
         vertexList1.print();
     } else if (printType == 2) { // Samba print
         vertexList1.sort();

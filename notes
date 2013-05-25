@@ -1,0 +1,39 @@
+TODO:
+
+1: Fix the stuff that is currently incorrect with the project
+    a: Fix the order that vertexes are added in the rectangle's list
+    b: Write your own sorting algorithm
+    c: Speed up the program
+    d: Refactor the code
+
+2: Implement the second part of the project
+    a: Define B(Ri): the boundary of the room
+    b: Define RB(Ri): the boundary without bottom left and top right
+    c: Define SP(Vj,Vk): The shortest path of the two vertexes
+    d: Define DFVR(Vj,Rk): The distance from Vj to the furthest vertex in Rk
+    e: Define CD(Vj, Ri): The connectivity distance from the vertex to the rectangle
+        Minimum DFVR from Vj to Rk, given that k != i (what the fuck does this mean?)
+    f: Define Algo 1
+    g: Define Algo 2
+
+
+OUTLINE:
+    2 Adj lists
+        1 For vertexes
+        1 For rectangle with adj vertexes
+
+    We have to sort the vertexes by label, label them, remove duplicates, update backpointers
+        add vertexes adjecent on the x, sort them based on y, add vertexes addjecent on the y,
+
+    NOTE: labeling, removing duplicates and updating backpointers can all be done in one go
+
+
+    List should be separate from vertex
+        Adds modularity
+        No need for one million different vertex classes
+
+    Adjecency list implementation should be with array
+        Reasons: Simplicity
+                 Speed
+
+    
