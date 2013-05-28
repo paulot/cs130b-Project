@@ -23,9 +23,15 @@ class Tuple {
             if (value != NULL)
                 value->print();
         }
+        void print (void (*pfunc)(T*, Y*)) {
+            pfunc(key, value);
+        }
         Tuple<T, Y>& operator= (const Tuple<T, Y> &other) {
             key = other.key;
             value = other.value;
+        }
+        bool operator== (const Tuple<T, Y> &other) const {
+            return *key == *(other.key);
         }
 };
 
@@ -53,6 +59,7 @@ class Map {
         Y&          operator[] (T& item);
 
         void print();
+        void print (void (*pfunc)(T*, Y*));
         void sort(int (*compar)(T &p1, T &p2));
     private:
         int size;
@@ -96,6 +103,14 @@ template <class T, class Y>
 void Map<T,Y>::print() {
     for (int i = 0; i < index; i++) {
         array[i].print();
+        cout << endl;
+    }
+}
+
+template <class T, class Y>
+void Map<T,Y>::print(void (*pfunc)(T*, Y*)) {
+    for (int i = 0; i < index; i++) {
+        array[i].print(pfunc);
         cout << endl;
     }
 }

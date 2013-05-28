@@ -1,7 +1,8 @@
 #include <iostream>
-#include "LinkedList.cpp"
 
 using namespace std;
+#include "LinkedList.cpp"
+
 
 class Point {
     public:
@@ -56,12 +57,12 @@ int main() {
 
 
     LinkedList<Point> ll;
-    ll.insert(p2, &compar);
-    ll.insert(p3, &compar);
-    ll.insert(p5, &compar);
-    ll.insert(p1, &compar);
-    ll.insert(p4, &compar);
-    ll.insert(p6, &compar);
+    ll.insertEnd(p2);
+    ll.insertEnd(p3);
+    ll.insertEnd(p5);
+    ll.insertEnd(p1);
+    ll.insertEnd(p4);
+    ll.insertEnd(p6);
     ll.print();
 
     return 0;

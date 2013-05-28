@@ -10,6 +10,7 @@ class Point;
 #include "LinkedList.cpp"
 #include "CompareFuncts.cpp"
 #include "Main-Helpers.cpp"
+#include "PrintFuncts.cpp"
 
 using std::cout;
 using std::cin;
@@ -18,12 +19,12 @@ int main() {
     int gridWidth;
     int gridHeight;
     int numRects;
-    int origin;
+    int originSteps;
     int printType;
-    Point tl;
-    Point tr;
-    Point br;
-    Point bl;
+    Point tl(TL);
+    Point tr(TR);
+    Point br(BR);
+    Point bl(BL);
     LinkedList<Point> linkedList;
 
     cin >> numRects;
@@ -49,7 +50,7 @@ int main() {
         bl.y = br.y;
 
         Rectangle rect(-1);
-        rectangles[i] = &referenceRects.insert(rect);
+        rectangles[i] = &referenceRects.insert(rect, linkedList);
 
         tl.parent = rectangles[i]->key;
         tr.parent = rectangles[i]->key;
@@ -57,30 +58,59 @@ int main() {
         bl.parent = rectangles[i]->key;
 
 
-        pointsByX[j++] = &referencePoints.insert(tl, linkedList);
-        pointsByX[j++] = &referencePoints.insert(tr, linkedList);
-        pointsByX[j++] = &referencePoints.insert(br, linkedList);
-        pointsByX[j++] = &referencePoints.insert(bl, linkedList);
+        pointsByX[j] = &referencePoints.insert(tl, linkedList);
+        rectangles[i]->key->tl = pointsByX[j++]->key;
+        pointsByX[j] = &referencePoints.insert(tr, linkedList);
+        rectangles[i]->key->tr = pointsByX[j++]->key;
+        pointsByX[j] = &referencePoints.insert(br, linkedList);
+        rectangles[i]->key->br = pointsByX[j++]->key;
+        pointsByX[j] = &referencePoints.insert(bl, linkedList);
+        rectangles[i]->key->bl = pointsByX[j++]->key;
     }
-    cin >> origin;
+    cin >> originSteps;
     cin >> printType;
 
     // TODO: change the sorting stuff!!
     qsort(pointsByX, pointsSize, sizeof(Tuple<Point, LinkedList<Point> > *), comparePointX);
     pointsSize = fixSizeLabelAndX(pointsByX, pointsSize);
+
     Tuple<Point, LinkedList<Point> > *pointsByY[pointsSize];
     memcpy(pointsByY, pointsByX, sizeof(Tuple<Point, LinkedList<Point> > *) * pointsSize);
-    qsort(pointsByY, pointsSize, sizeof(Tuple<Point, LinkedList<Point> > *), comparePointY);
-    fixY(pointsByY, pointsSize);
 
-    
-    //referencePoints.print();
-    for (int i = 0; i < pointsSize; i++) {
-        pointsByX[i]->print();
-    }
-    
-    for (int i = 0; i < numRects; i++) {
-        rectangles[i]->print();
+    qsort(pointsByY, pointsSize, sizeof(Tuple<Point, LinkedList<Point> > *), comparePointY);
+
+    qsort(rectangles, numRects,  sizeof(Tuple<Rectangle, LinkedList<Point> > *), compareRectLabel);
+    if (printType == 1) {
+        addAdjecencies(pointsByX, pointsByY, pointsSize, rectangles, numRects);
+        addRectAdjecencies(pointsByX, pointsByY, pointsSize, rectangles, numRects);
+        
+
+        /*
+        for (int i = 0; i < pointsSize; i++) {
+            pointsByX[i]->key->printRect();
+            cout << endl;
+        }
+        */
+        //referencePoints.print();
+        for (int i = 0; i < numRects; i++) {
+            rectangles[i]->print(&printRectVal<Rectangle, LinkedList<Point> >);
+        }
+        for (int i = 0; i < numRects; i++) {
+            rectangles[i]->print(&printKey<Rectangle, LinkedList<Point> >);
+        }
+        for (int i = 0; i < pointsSize; i++) {
+            cout << i+1 << " " << pointsByX[i]->key->x << " " << pointsByX[i]->key->y << " ";
+            pointsByX[i]->value->print(pointsByX[i]->key->x, pointsByX[i]->key->y);
+            cout << endl;
+        }
+    } else if (printType == 2) {
+        // cout << "viewdef view " << gridWidth << " " << gridHeight << endl;
+        cout << "view MyView" << endl;
+        Point &origin = getOrigin(originSteps, pointsByX, pointsByY, pointsSize);
+        origin.printSamba();
+        for (int i = 0; i < numRects; i++) {
+            rectangles[i]->key->printSambaPoint();
+        }
     }
 
     return 0;

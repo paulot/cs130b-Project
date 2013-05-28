@@ -16,3 +16,8 @@ int comparePointY(const void *pa, const void *pb) {
 int comparePointLabel(Point &p1, Point &p2) {
     return p1.label - p2.label;
 }
+
+int compareRectLabel(const void *p1, const void *p2) {
+    return ((*(Tuple<Rectangle, LinkedList<Point> > **) p1)->key->label) - 
+            ((*(Tuple<Rectangle, LinkedList<Point> > **) p2)->key->label);
+}

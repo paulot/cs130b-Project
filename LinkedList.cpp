@@ -8,8 +8,13 @@ class Node {
         };
         T   &item;
         Node<T>   *next;
+        void print(void (*fprint) (T &)) {
+            fprint(item);
+        }
+        void print(int x, int y) {
+            item.print(x, y);
+        }
         void print() {
-            cout << "    ";
             item.print();
         }
 };
@@ -28,11 +33,15 @@ class LinkedList {
         ~LinkedList();
         Node<T> &getRoot();
         void insert(T& item, int (*compar) (T& p1, T& p2));
+        void insertEnd(T& item);
         // Delete? what's that
         void print();
+        void print(void (*fprint)(T &));
+        void print(int x, int y);
 
         int size;
         Node<T>  *root;
+        Node<T>  *last;
 };
 
 template <class T>
@@ -49,10 +58,43 @@ LinkedList<T>::~LinkedList() {
 template <class T>
 void LinkedList<T>::print() {
     if (root == NULL) return;
-    for (Node<T> *i = root; i != NULL; i = i->next)
+    for (Node<T> *i = root; i != NULL; i = i->next) {
         i->print();
+    }
+    cout << endl;
 }
-     
+
+template <class T>
+void LinkedList<T>::print(void (*fprint)(T &)) {
+    if (root == NULL) return;
+    for (Node<T> *i = root; i != NULL; i = i->next)
+        i->print(fprint);
+}
+
+template <class T>
+void LinkedList<T>::print(int x, int y) {
+    if (root == NULL) return;
+    for (Node<T> *i = root; i != NULL; i = i->next)
+        i->print(x, y);
+}
+
+// PARAMS
+//  T item          item to be inserted
+//  
+// OUT
+//  nada
+template <class T>
+void LinkedList<T>::insertEnd(T& item) {
+    if (root == NULL) {
+        root = new Node<T>(item);
+        last = root;
+        size++;
+    } else {
+        last->next = new Node<T>(item);
+        last = last->next;
+        size++;
+    }
+}
 
 // PARAMS
 //  T   item        item to be inserted
@@ -66,7 +108,9 @@ template <class T>
 void LinkedList<T>::insert(T& item, int (*compar) (T& p1, T& p2)) {
     if (root == NULL) {
         root = new Node<T>(item);
+        last = root;
         size++;
+        return;
     } else {
         Node<T> *first = root;
         Node<T> *second = root->next;
@@ -74,11 +118,16 @@ void LinkedList<T>::insert(T& item, int (*compar) (T& p1, T& p2)) {
             root = new Node<T>(item);
             root->next = first;
             size++;
+            return;
+        } else if (compar(item, first->item) == 0) {
+            return;
         } else {                             // item is after
             if (second == NULL) {
                     // NULL set?
                     first->next = new Node<T>(item);
+                    last = first->next;
                     size++;
+                    return;
             } else {                         // item is after
                 for (first, second;
                      second->next != NULL and (compar(item, second->item) > 0);
@@ -89,9 +138,14 @@ void LinkedList<T>::insert(T& item, int (*compar) (T& p1, T& p2)) {
                     first->next = new Node<T>(item);
                     first->next->next = second;
                     size++;
+                    return;
+                } else if (compar(item, first->item) == 0 or compar(item, second->item) == 0) {
+                    return;
                 } else {
                     second->next = new Node<T>(item);
+                    last = second->next;
                     size++;
+                    return;
                 }
             }
         }
