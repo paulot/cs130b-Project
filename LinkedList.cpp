@@ -61,7 +61,7 @@ void LinkedList<T>::print() {
     for (Node<T> *i = root; i != NULL; i = i->next) {
         i->print();
     }
-    cout << endl;
+    cout << "\n";
 }
 
 template <class T>

@@ -1,7 +1,6 @@
 #include <iostream>
 
 using std::cout;
-using std::endl;
 
 typedef enum {
     TL = 0,
@@ -13,10 +12,8 @@ typedef enum {
 class Point {
     public:
         Point() {
-            rectanglesSize = 0;
         }
         Point(int p): pos(p) { 
-            rectanglesSize = 0;
         }
         Point(const Point &p) {
             x = p.x;
@@ -24,9 +21,6 @@ class Point {
             label = p.label;
             parent = p.parent;
             pos = p.pos;
-            rectanglesSize = p.rectanglesSize;
-            for (int i = 0; i < rectanglesSize; i++)
-                rectangles[i] = p.rectangles[i];
         }
         Point(int xx, int yy): x(xx), y(yy) { }
         int x;
@@ -38,15 +32,7 @@ class Point {
         int ypos;
         char pos;
         Rectangle *parent;
-        // Set of rectangles that this point belongs to
-        int rectangles[4];
-        int rectanglesSize;
 
-        void printRect() {
-            cout << label << " ";
-            for (int i = 0; i < rectanglesSize; i++)
-                cout << rectangles[i] << " ";
-        }
         // Methods
         void print() {
             cout << label << " ";
@@ -61,11 +47,11 @@ class Point {
         }
         void printSamba() {
             cout << "circle origin " << x << " " << y <<
-                    " 80 black outline" << endl;
+                    " 80 black outline" << "\n";
         }
         void printSambaLabel() {
             cout << "text P" << label << " " << x << 
-                    " " << y << " 1 black V" << label << endl;
+                    " " << y << " 1 black V" << label << "\n";
         }
         bool operator==(Point &p1) {
             return p1.x == x and p1.y == y;

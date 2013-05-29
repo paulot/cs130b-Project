@@ -1,5 +1,4 @@
 #include <iostream>
-#include "Sort.cpp"
 
 using namespace std;
 
@@ -35,6 +34,7 @@ class Tuple {
         }
 };
 
+#define MAP
 // Map Class
 // T:   The type of key of the Map
 // Y:   The type of the value of the Map
@@ -103,7 +103,7 @@ template <class T, class Y>
 void Map<T,Y>::print() {
     for (int i = 0; i < index; i++) {
         array[i].print();
-        cout << endl;
+        cout << "\n";
     }
 }
 
@@ -111,7 +111,7 @@ template <class T, class Y>
 void Map<T,Y>::print(void (*pfunc)(T*, Y*)) {
     for (int i = 0; i < index; i++) {
         array[i].print(pfunc);
-        cout << endl;
+        cout << "\n";
     }
 }
 
@@ -123,9 +123,4 @@ Y& Map<T,Y>::operator[] (T& item) {
     }
     insert(item);
     return *(array[index - 1].value);
-}
-
-template <class T, class Y>
-void Map<T,Y>::sort(int (*compar)(T &p1, T &p2)) {
-    psort<Tuple <T, Y> >(array, index, compar);
 }

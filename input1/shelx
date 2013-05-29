@@ -1,0 +1,3 @@
+awk '{print $1 " " $2}' error | sort > err1
+wc err1
+uniq err1 |wc

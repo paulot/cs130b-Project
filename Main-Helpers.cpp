@@ -1,27 +1,9 @@
 #define INSERT_RECT(item, arr, size)      \
     arr[size++]   =   item;
-
+#define SO 
 #define GET_X(p1) arrayByX[p1.xpos - 1]
 #define GET_Y(p1) arrayByY[p1.ypos]
 
-
-// Finds if there is a path between two points
-//
-//@PARAMS
-//  p1
-//      First point
-//  p2
-//      Second point
-//@OUT
-//  true is there is a path
-//  false otherwise
-bool isConnected(Point &p1, Point &p2) {
-    for (int i = 0; i < p1.rectanglesSize; i++)
-        for (int j = 0; j < p2.rectanglesSize; j++)
-            if (p1.rectangles[i] == p2.rectangles[j])
-                return true;
-    return false;
-}
 
 //  Housekeeping for the points array
 //      "Removes" duplicates
@@ -47,9 +29,6 @@ int fixSizeLabelAndX(Tuple<Point, LinkedList<Point> > *array[], int size) {
     int j = 0;
 
     for (int i = 1; i < size; i++) {
-        INSERT_RECT(array[j]->key->parent->label, 
-                    array[j]->key->rectangles, 
-                    array[j]->key->rectanglesSize);
         // Run along i until they are no equal
         // for all the equal ones label the parent
         // and merge those labels at the first
@@ -59,10 +38,6 @@ int fixSizeLabelAndX(Tuple<Point, LinkedList<Point> > *array[], int size) {
                 rlabel++;
                 array[i]->key->parent->label = rlabel;
             }
-            // Merge labels to j
-            INSERT_RECT(array[i]->key->parent->label, 
-                        array[j]->key->rectangles, 
-                        array[j]->key->rectanglesSize);
 
             // Update rectangle pointers
             switch (array[i]->key->pos) {
@@ -90,10 +65,6 @@ int fixSizeLabelAndX(Tuple<Point, LinkedList<Point> > *array[], int size) {
             array[j]->key->parent->label = rlabel;
         }
     }
-    // Insert at the last one!
-    INSERT_RECT(array[j]->key->parent->label, 
-                array[j]->key->rectangles, 
-                array[j]->key->rectanglesSize);
     return j + 1;
 }
 
@@ -144,73 +115,6 @@ void addAdjecencies(Tuple<Point, LinkedList<Point> > *arrayByX[],
 }
 
 
-/*
-        Point &ref   = *arrayByX[i]->key;
-
-        Point &backX = *arrayByX[i - 1]->key;
-        Point &forX  = *arrayByX[i + 1]->key;
-        Point &backY = *arrayByY[ref.ypos - 1]->key;
-        Point &forY  = *arrayByY[ref.ypos + 1]->key;
-
-
-
-        // Look for potential candidates on the x axis
-        if (ref.y == backX.y) {
-            // Candidate found check if they share a rectangle
-            if (isConnected(backX, backY) or isConnected(backX, forY)) {
-                arrayByX[i]->value->insert(backX, comparePointLabel);
-                arrayByX[i - 1]->value->insert(ref, comparePointLabel);
-            }
-        }
-
-        // Look for candidates on the y axis
-        if (ref.x == backY.x) {
-            // Candidate found check if they share a rectangle
-            if (isConnected(backY, backX) or isConnected(backY, forX)) {
-                arrayByX[i]->value->insert(backY, comparePointLabel);
-                arrayByY[ref.ypos - 1]->value->insert(ref, comparePointLabel);
-            }
-        }
-        */
-
-
-
-/*
-        if (arrayByX[arrayByY[i]->key->xpos - 2]->key->y == 
-                arrayByX[arrayByY[i]->key->xpos - 1]->key->y)
-            // Candidate found, check if they have a path
-            if (isConnected(*arrayByY[i - 1]->key, *arrayByX[]->key)) {
-
-                arrayByX[arrayByY[i]->key->xpos - 2]->value->insert(
-                        *(arrayByX[arrayByY[i]->key->xpos - 1]->key), comparePointLabel);
-                arrayByX[arrayByY[i]->key->xpos - 1]->value->insert(
-                        *(arrayByX[arrayByY[i]->key->xpos - 2]->key), comparePointLabel);
-            } else if (isConnected(*arrayByY[i]->key, *arrayByY[i + 1]->key)) {
-
-
-
-*/
-/*
-        // Add X adjecencies:
-        if (arrayByX[arrayByY[i - 1]->key->xpos - 1]->key->y == 
-                arrayByX[arrayByY[i]->key->xpos - 1]->key->y 
-            and isConnected(*arrayByY[i]->key, 
-                *arrayByX[i]->key)) {
-
-                arrayByX[i - 1]->value->insert(*(arrayByX[i]->key), comparePointLabel);
-                arrayByX[i]->value->insert(*(arrayByX[i - 1]->key), comparePointLabel);
-        }
-
-        // Add Y adjecencies:
-        if (arrayByY[i - 1]->key->x == arrayByY[i]->key->x 
-           and isConnected(*arrayByY[i - 1]->key, *arrayByY[i]->key)) {
-                arrayByY[i - 1]->value->insert(*(arrayByY[i]->key), comparePointLabel);
-                arrayByY[i]->value->insert(*(arrayByY[i - 1]->key), comparePointLabel);
-        }
-*/
-
-
-
 // Even more housekeeping...
 // Add points on the edge of a rectangle
 // Starting at the top left and goinf clockwise
@@ -240,7 +144,7 @@ void addRectAdjecencies(Tuple <Point, LinkedList<Point> > **pointsByX,
                 tlY << " " <<
                 trY << " " <<
                 brY << " " <<
-                blY << " " << endl;
+                blY << " " << "\n";
 
         for (int f = 0; f < pointsSize; f++) {
             pointsByX[f]->key->print();

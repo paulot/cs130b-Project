@@ -11,6 +11,9 @@ class Point;
 #include "CompareFuncts.cpp"
 #include "Main-Helpers.cpp"
 #include "PrintFuncts.cpp"
+#include "Sort.hpp"
+
+
 
 using std::cout;
 using std::cin;
@@ -70,16 +73,26 @@ int main() {
     cin >> originSteps;
     cin >> printType;
 
-    // TODO: change the sorting stuff!!
+#define pointEnd sizeof(Tuple<Point, LinkedList<Point> > *)
+#define rectEnd  sizeof(Tuple<Rectangle, LinkedList<Point> > *)
+#define pointStart pointsSize
+#define rectStart numRects
+    // qsort from Sort.hpp
     qsort(pointsByX, pointsSize, sizeof(Tuple<Point, LinkedList<Point> > *), comparePointX);
+    // qsort<Tuple<Point, LinkedList<Point> > *>(pointsByX, 0, pointsSize - 1, comparePointX);
+
     pointsSize = fixSizeLabelAndX(pointsByX, pointsSize);
 
     Tuple<Point, LinkedList<Point> > *pointsByY[pointsSize];
     memcpy(pointsByY, pointsByX, sizeof(Tuple<Point, LinkedList<Point> > *) * pointsSize);
 
+    // qsort from Sort.hpp
     qsort(pointsByY, pointsSize, sizeof(Tuple<Point, LinkedList<Point> > *), comparePointY);
+    // qsort<Tuple<Point, LinkedList<Point> > *>(pointsByY, 0, pointsSize - 1, comparePointY);
 
+    // qsort from Sort.hpp
     qsort(rectangles, numRects,  sizeof(Tuple<Rectangle, LinkedList<Point> > *), compareRectLabel);
+    // qsort<Tuple<Rectangle, LinkedList<Point> > *>(rectangles, 0, numRects - 1, compareRectLabel);
     if (printType == 1) {
         addAdjecencies(pointsByX, pointsByY, pointsSize, rectangles, numRects);
         addRectAdjecencies(pointsByX, pointsByY, pointsSize, rectangles, numRects);
@@ -88,7 +101,7 @@ int main() {
         /*
         for (int i = 0; i < pointsSize; i++) {
             pointsByX[i]->key->printRect();
-            cout << endl;
+            cout << "\n";
         }
         */
         //referencePoints.print();
@@ -101,11 +114,11 @@ int main() {
         for (int i = 0; i < pointsSize; i++) {
             cout << i+1 << " " << pointsByX[i]->key->x << " " << pointsByX[i]->key->y << " ";
             pointsByX[i]->value->print(pointsByX[i]->key->x, pointsByX[i]->key->y);
-            cout << endl;
+            cout << "\n";
         }
     } else if (printType == 2) {
-        // cout << "viewdef view " << gridWidth << " " << gridHeight << endl;
-        cout << "view MyView" << endl;
+        // cout << "viewdef view " << gridWidth << " " << gridHeight << "\n";
+        cout << "view MyView" << "\n";
         Point &origin = getOrigin(originSteps, pointsByX, pointsByY, pointsSize);
         origin.printSamba();
         for (int i = 0; i < numRects; i++) {

@@ -1,7 +1,6 @@
 #include <iostream>
 
 using std::cout;
-using std::endl;
 
 class Rectangle {
     public:
@@ -16,13 +15,13 @@ class Rectangle {
             cout << tl->label << " "
                  << tr->label << " "
                  << br->label << " "
-                 << bl->label << endl;
+                 << bl->label << "\n";
         }
         void printSamba() {
             cout << "rectangle R" << label << " " << bl->x << " " << bl->y <<
-                    " " << tr->x - tl->x << " " << tl->y - bl->y << " black outline" << endl;
+                    " " << tr->x - tl->x << " " << tl->y - bl->y << " black outline" << "\n";
             cout << "text T" << label << " " << (tl->x + ((tr->x - tl->x) / 2)) << 
-                    " " << (bl->y + ((tl->y - bl->y) / 2)) << " 1 black R" << label << endl;
+                    " " << (bl->y + ((tl->y - bl->y) / 2)) << " 1 black R" << label << "\n";
         }
         void printSambaPoint() {
             printSamba();
